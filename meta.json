@@ -1,0 +1,20 @@
+{
+  "lastUpdated": "2026-12-01",
+  "lastUpdatedFormatted": "DECEMBER 2026",
+  "version": "1.12",
+  "dataValidFrom": "December 2026",
+  "nextUpdateDue": "2027-01-01",
+  "sources": {
+    "roadTax": "RTOs across India (Ministry of Road Transport & Highways)",
+    "carModels": "Manufacturer official websites & CarDekho.com",
+    "insurance": "IRDAI rate notifications",
+    "policies": "Government circulars & state EV policies",
+    "serviceCosts": "SIAM published service schedules"
+  },
+  "changesSinceLastUpdate": [
+    "Initial implementation of JSON-based data system",
+    "All government norms and vehicle data centralized",
+    "Auto-updating date display implemented"
+  ],
+  "notes": "This calculator provides approximate costs for planning purposes only. Verify with actual dealer quotes before purchase decisions."
+}

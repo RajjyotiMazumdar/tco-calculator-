@@ -1,0 +1,59 @@
+{
+  "mileageBase": {
+    "petrol": {"city": 13.5, "hwy": 16},
+    "diesel": {"city": 15, "hwy": 19},
+    "hybrid": {"city": 22, "hwy": 21},
+    "ev": {"city": 7.2, "hwy": 6.5},
+    "updatedDate": "2026-12-01"
+  },
+  "insuranceBaseFactor": {
+    "petrol": 0.016,
+    "diesel": 0.018,
+    "hybrid": 0.018,
+    "ev": 0.024,
+    "updatedDate": "2026-12-01"
+  },
+  "resalePctNew": {
+    "petrol": 0.51,
+    "diesel": 0.47,
+    "hybrid": 0.58,
+    "ev": 0.44,
+    "updatedDate": "2026-12-01"
+  },
+  "resalePctUsed": {
+    "petrol": 0.62,
+    "diesel": 0.58,
+    "hybrid": 0.66,
+    "ev": 0.55,
+    "updatedDate": "2026-12-01"
+  },
+  "serviceBase": {
+    "petrol": 16000,
+    "diesel": 30000,
+    "hybrid": 14000,
+    "ev": 10000,
+    "updatedDate": "2026-12-01"
+  },
+  "wearExtra": {
+    "petrol": 0.35,
+    "diesel": 0.65,
+    "hybrid": 0.20,
+    "ev": 0.08,
+    "updatedDate": "2026-12-01"
+  },
+  "climateFactors": {
+    "moderate": 1.0,
+    "hot": 1.15,
+    "cold": 1.1,
+    "updatedDate": "2026-12-01"
+  },
+  "co2Factor": {
+    "petrol": 2.31,
+    "diesel": 2.68,
+    "hybrid": 2.31,
+    "evPerKwh": 0.71,
+    "updatedDate": "2026-12-01"
+  },
+  "updatedDate": "2026-12-01",
+  "source": "SIAM published service schedules, manufacturer data, IRDAI insurance rates"
+}

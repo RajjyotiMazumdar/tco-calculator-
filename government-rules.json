@@ -1,0 +1,65 @@
+{
+  "ncrAgeLimits": {
+    "petrol": 15,
+    "diesel": 10,
+    "hybrid": 15,
+    "ev": 999,
+    "description": "Age limits for vehicle registration in Delhi-NCR zone",
+    "updatedDate": "2026-12-01"
+  },
+  "ncrRegions": [
+    "delhi",
+    "haryana",
+    "up",
+    "punjab",
+    "chandigarh"
+  ],
+  "insuranceMandates": {
+    "thirdPartyCoverDuration": "4 years",
+    "description": "Minimum third-party insurance cover for new cars (as per Supreme Court 2026)",
+    "updatedDate": "2026-12-01"
+  },
+  "emissionNorms": {
+    "standard": "Bharat Stage 6",
+    "source": "Ministry of Road Transport & Highways",
+    "updatedDate": "2026-12-01"
+  },
+  "vehicleAgeLimits": {
+    "fitnessCertificateRequired": 15,
+    "deregistrationAge": 20,
+    "greenTaxAppliesAfter": 15,
+    "description": "Private vehicles require fitness test after 15 years, de-registration possible at 20 years",
+    "updatedDate": "2026-12-01"
+  },
+  "batteryReplacementCost": {
+    "ev": 1200000,
+    "hybrid": 220000,
+    "description": "Approximate battery replacement costs (subject to technology changes)",
+    "updatedDate": "2026-12-01"
+  },
+  "evIncentives": {
+    "gstRate": 0.05,
+    "description": "5% GST on EVs (temporary, subject to GST Council review)",
+    "source": "56th GST Council Meeting, September 2025",
+    "updatedDate": "2026-12-01"
+  },
+  "PUCRequirements": {
+    "description": "Mandatory for petrol, diesel, CNG cars; NOT required for pure EVs",
+    "renewalFrequency": "Every 6-12 months",
+    "gatesInsuranceRenewal": true,
+    "updatedDate": "2026-12-01"
+  },
+  "scrappage": {
+    "certificateWorth": "4-6% of ex-showroom price",
+    "description": "Scrap value received when vehicle is deregistered",
+    "manufacturerDiscount": "Typically 10-15% on new car purchase",
+    "roadTaxRebate": "Available on replacement vehicle",
+    "updatedDate": "2026-12-01"
+  },
+  "commercialRoadTaxAdd": 5,
+  "regnFeeFlat": 1500,
+  "usedTransferFee": 5000,
+  "evSetupCost": 2500,
+  "updatedDate": "2026-12-01",
+  "source": "Ministry of Road Transport & Highways, IRDAI, State RTOs, Government Circulars"
+}

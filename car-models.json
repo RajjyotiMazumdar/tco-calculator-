@@ -1,0 +1,54 @@
+{
+  "petrol": [
+    {"brand": "Maruti", "name": "Swift", "price": 650000, "specs": "1.2L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "i20", "price": 720000, "specs": "1.2L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Tiago", "price": 580000, "specs": "1.2L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Alto", "price": 450000, "specs": "0.8L, budget hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "Creta", "price": 1150000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Kia", "name": "Seltos", "price": 1100000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Ciaz", "price": 1050000, "specs": "1.5L, sedan", "updatedDate": "2026-12-01"},
+    {"brand": "Honda", "name": "City", "price": 1180000, "specs": "1.5L, sedan", "updatedDate": "2026-12-01"},
+    {"brand": "Mahindra", "name": "Bolero", "price": 890000, "specs": "1.5L, SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Punch", "price": 650000, "specs": "1.2L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Renault", "name": "Kiger", "price": 700000, "specs": "1.0L turbo, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "MG", "name": "Astor", "price": 1050000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Volkswagen", "name": "Polo", "price": 850000, "specs": "1.0L, hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Skoda", "name": "Slavia", "price": 1100000, "specs": "1.0L turbo, sedan", "updatedDate": "2026-12-01"}
+  ],
+  "diesel": [
+    {"brand": "Maruti", "name": "Swift (Diesel)", "price": 750000, "specs": "1.3L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "i20 (Diesel)", "price": 820000, "specs": "1.5L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Tiago (Diesel)", "price": 680000, "specs": "1.05L, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "Creta (Diesel)", "price": 1280000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Kia", "name": "Seltos (Diesel)", "price": 1220000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Ertiga (Diesel)", "price": 1150000, "specs": "1.5L, 7-seater MPV", "updatedDate": "2026-12-01"},
+    {"brand": "Mahindra", "name": "Bolero (Diesel)", "price": 990000, "specs": "1.5L, SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Nexon (Diesel)", "price": 1050000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "MG", "name": "Astor (Diesel)", "price": 1150000, "specs": "1.5L, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Skoda", "name": "Slavia (Diesel)", "price": 1200000, "specs": "1.5L, sedan", "updatedDate": "2026-12-01"}
+  ],
+  "hybrid": [
+    {"brand": "Maruti", "name": "Brezza Hybrid", "price": 950000, "specs": "1.5L Strong Hybrid, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Ciaz Hybrid", "price": 1150000, "specs": "1.5L Hybrid, sedan", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Ertiga Hybrid", "price": 1250000, "specs": "1.5L Hybrid, 7-seater MPV", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "XL5 Hybrid", "price": 1050000, "specs": "1.5L Hybrid, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Maruti", "name": "Swift Hybrid", "price": 800000, "specs": "1.2L Hybrid, hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Toyota", "name": "Glanza Hybrid", "price": 950000, "specs": "1.5L Hybrid, hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Toyota", "name": "Fortuner Hybrid", "price": 2850000, "specs": "2.8L Hybrid, full-size SUV", "updatedDate": "2026-12-01"}
+  ],
+  "ev": [
+    {"brand": "Tata", "name": "Tiago EV", "price": 850000, "specs": "150km range, 5-seater hatchback", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Nexon EV", "price": 1550000, "specs": "312km range, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Tata", "name": "Nexon EV Max", "price": 1750000, "specs": "437km range, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "MG", "name": "ZS EV", "price": 1580000, "specs": "461km range, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "Kona EV", "price": 2350000, "specs": "452km range, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Hyundai", "name": "Ioniq 5", "price": 3850000, "specs": "614km range, premium sedan", "updatedDate": "2026-12-01"},
+    {"brand": "Kia", "name": "EV6", "price": 4050000, "specs": "628km range, premium sedan", "updatedDate": "2026-12-01"},
+    {"brand": "BYD", "name": "Qin EV", "price": 1950000, "specs": "401km range, sedan", "updatedDate": "2026-12-01"},
+    {"brand": "Mahindra", "name": "XUV 400", "price": 1650000, "specs": "456km range, compact SUV", "updatedDate": "2026-12-01"},
+    {"brand": "Mahindra", "name": "BE 6e", "price": 2450000, "specs": "485km range, premium SUV", "updatedDate": "2026-12-01"},
+    {"brand": "JSW", "name": "Altigreen Charge", "price": 1450000, "specs": "250km range, compact sedan", "updatedDate": "2026-12-01"},
+    {"brand": "BYD", "name": "Yuan Plus EV", "price": 2550000, "specs": "500km range, premium SUV", "updatedDate": "2026-12-01"},
+    {"brand": "BMW", "name": "i3", "price": 4950000, "specs": "420km range, premium hatchback", "updatedDate": "2026-12-01"}
+  ]
+}

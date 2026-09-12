@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petrol, Diesel, Hybrid or EV — The Real Cost of Ownership in India (2026)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#14171a; --panel:#1b1f23; --panel2:#20252a; --panel3:#262c32;
+    --line:#2b3138; --line2:#353c43; --ink:#e9e7e1; --muted:#93a1ac; --muted2:#63707b;
+    --petrol:#e08a3c; --diesel:#a98456; --hybrid:#3fa88a; --ev:#4c8dff;
+    --warn:#e2645a; --good:#57b98a; --radius:6px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans', sans-serif;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+  .wide{max-width:1160px;margin:0 auto;padding:0 24px;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.01em;color:var(--ink);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:var(--ev);}
+  p{color:var(--ink);}
+  .muted{color:var(--muted);}
+
+  header.cover{padding:72px 0 40px;border-bottom:1px solid var(--line);}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted2);letter-spacing:0.02em;margin-bottom:18px;}
+  h1.title{font-size:clamp(32px,5vw,50px);line-height:1.08;margin:0 0 20px;max-width:14ch;}
+  .dek{font-size:19px;color:var(--muted);max-width:64ch;margin:0 0 32px;}
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px;}
+  .stat-strip .cell{background:var(--bg);padding:16px 14px;}
+  .stat-strip .fuel-label{font-size:12px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted2);margin-bottom:8px;}
+  .stat-strip .num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;}
+  .stat-strip .sub{font-size:12.5px;color:var(--muted);margin-top:4px;}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;}
+  .sec-num{font-family:'IBM Plex Mono',monospace;color:var(--muted2);font-size:14px;}
+  .sec-head h2{font-size:26px;margin:0;}
+  section p{max-width:72ch;}
+  section ul, section ol{max-width:72ch;padding-left:22px;color:var(--ink);}
+  section li{margin-bottom:8px;}
+
+  .callout{border-left:2px solid var(--ev);background:var(--panel);padding:16px 20px;margin:20px 0;max-width:72ch;font-size:15px;border-radius:0 4px 4px 0;}
+  .callout.warn{border-left-color:var(--warn);}
+  .callout b{color:var(--ink);}
+
+  table{border-collapse:collapse;width:100%;margin:20px 0;font-size:14.5px;}
+  caption{text-align:left;font-size:13px;color:var(--muted2);margin-bottom:8px;font-family:'IBM Plex Mono',monospace;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;}
+  th{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);}
+  td.num, th.num{text-align:right;font-family:'IBM Plex Mono',monospace;}
+  tr.hl td{color:var(--ink);font-weight:600;}
+  tr.flag td{color:var(--warn);}
+  .tag{display:inline-block;font-size:11.5px;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:20px;margin-left:6px;}
+  .tag.petrol{background:rgba(224,138,60,.15);color:var(--petrol);}
+  .tag.diesel{background:rgba(169,132,86,.15);color:var(--diesel);}
+  .tag.hybrid{background:rgba(63,168,138,.15);color:var(--hybrid);}
+  .tag.ev{background:rgba(76,141,255,.15);color:var(--ev);}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;}
+  .dot.petrol{background:var(--petrol);} .dot.diesel{background:var(--diesel);}
+  .dot.hybrid{background:var(--hybrid);} .dot.ev{background:var(--ev);}
+
+  .calc{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line2);border-radius:10px;margin-top:12px;box-shadow:0 20px 60px -30px rgba(0,0,0,.6);}
+  .calc-head{border-radius:10px 10px 0 0;}
+  .calc-grid > *:first-child{border-radius:0 0 0 10px;}
+  .calc-grid > *:last-child{border-radius:0 0 10px 0;}
+  @media(max-width:900px){.calc-grid > *{border-radius:0;}}
+  .calc-head{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .calc-head h3{margin:0;font-size:17px;}
+  .calc-head .muted{font-size:13px;}
+  .calc-grid{display:grid;grid-template-columns:400px minmax(0,1fr);}
+  @media(max-width:900px){.calc-grid{grid-template-columns:1fr;}}
+  .calc-inputs{padding:0;border-right:1px solid var(--line);min-width:0;}
+  @media(max-width:900px){.calc-inputs{border-right:none;border-bottom:1px solid var(--line);}}
+  .calc-out{padding:28px;min-width:0;}
+
+  .tabs{display:flex;gap:2px;padding:14px 14px 0;flex-wrap:wrap;}
+  .tab-btn{background:transparent;border:none;color:var(--muted);padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.03em;cursor:pointer;border-radius:6px 6px 0 0;text-transform:uppercase;}
+  .tab-btn.active{background:var(--panel3);color:var(--ink);}
+  .tab-panel{display:none;padding:20px 24px 24px;}
+  .tab-panel.active{display:block;}
+
+  .field{margin-bottom:20px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px;font-size:12.5px;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace;}
+  .field label span.val{color:var(--ink);background:var(--bg);padding:1px 8px;border-radius:20px;border:1px solid var(--line2);font-size:12px;white-space:nowrap;flex:none;}
+  .field label.plain{font-family:'IBM Plex Sans',sans-serif;text-transform:none;font-size:13.5px;letter-spacing:0;color:var(--ink);}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;background:var(--line2);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ev);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ev);cursor:pointer;margin-top:-1px;}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ev);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ev);cursor:pointer;}
+
+  input[type=number], select{width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--ink);padding:9px 11px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;border-radius:6px;}
+  select:focus, input:focus{outline:1px solid var(--ev);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  .seg{display:flex;background:var(--bg);border:1px solid var(--line2);border-radius:8px;padding:3px;margin-bottom:18px;}
+  .seg button{flex:1;background:transparent;border:none;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 4px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:.02em;}
+  .seg button.active{background:var(--panel3);color:var(--ink);}
+
+  .persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  @media(max-width:420px){.persona-grid{grid-template-columns:1fr;}}
+  .persona-card{border:1px solid var(--line2);border-radius:8px;padding:12px;cursor:pointer;font-size:12.5px;color:var(--muted);transition:.15s ease;line-height:1.35;}
+  .persona-card b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px;font-family:'IBM Plex Sans',sans-serif;}
+  .persona-card:hover{border-color:var(--muted2);}
+  .persona-card.active{border-color:var(--ev);background:rgba(76,141,255,.08);}
+  .persona-card.active b{color:var(--ev);}
+
+  .switch-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line2);border-radius:8px;padding:10px 14px;margin-bottom:14px;}
+  .switch-row .lbl{font-size:13px;color:var(--ink);}
+  .switch-row .sub{font-size:11.5px;color:var(--muted2);margin-top:2px;}
+  .switch{position:relative;width:38px;height:22px;flex:none;}
+  .switch input{opacity:0;width:0;height:0;}
+  .switch .track{position:absolute;inset:0;background:var(--line2);border-radius:20px;transition:.2s;cursor:pointer;}
+  .switch .track:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:var(--muted);border-radius:50%;transition:.2s;}
+  .switch input:checked + .track{background:rgba(76,141,255,.35);}
+  .switch input:checked + .track:before{transform:translateX(16px);background:var(--ev);}
+
+  details{margin-top:4px;}
+  summary{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);padding:8px 0;}
+
+  .verdict{background:var(--panel3);border:1px solid var(--line2);border-radius:8px;padding:18px 20px;margin-bottom:18px;}
+  .verdict .headline{font-family:'Space Grotesk',sans-serif;font-size:19px;margin-bottom:6px;}
+  .verdict .headline b{padding:2px 10px;border-radius:20px;}
+  .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+  @media(max-width:560px){.metric-row{grid-template-columns:1fr;}}
+  .metric-row .m{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-width:0;}
+  .metric-row .m .k{font-size:11px;color:var(--muted2);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;}
+  .metric-row .m .v{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--ink);overflow-wrap:break-word;}
+
+  .alert{background:rgba(226,100,90,.12);border:1px solid rgba(226,100,90,.4);color:var(--warn);border-radius:8px;padding:12px 16px;font-size:13.5px;margin-bottom:18px;}
+  .alert b{color:var(--ink);}
+
+  .models-section{margin-top:32px;padding-top:24px;border-top:1px solid var(--line2);}
+  .models-section h3{font-size:18px;margin:0 0 16px 0;color:var(--ink);}
+  .models-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .model-card{background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:14px;transition:.2s ease;}
+  .model-card:hover{border-color:var(--ev);box-shadow:0 4px 12px rgba(76,141,255,.15);}
+  .model-card .brand{font-size:11px;color:var(--muted2);text-transform:uppercase;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;margin-bottom:4px;}
+  .model-card .name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+  .model-card .specs{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:10px;}
+  .model-card .price{font-size:14px;color:var(--ev);font-weight:600;font-family:'IBM Plex Mono',monospace;}
+  .model-card .fuel-badge{display:inline-block;font-size:10px;padding:3px 7px;border-radius:12px;margin-top:8px;text-transform:uppercase;font-weight:600;}
+  .model-card .fuel-badge.petrol{background:rgba(224,138,60,.2);color:var(--petrol);}
+  .model-card .fuel-badge.diesel{background:rgba(169,132,86,.2);color:var(--diesel);}
+  .model-card .fuel-badge.hybrid{background:rgba(63,168,138,.2);color:var(--hybrid);}
+  .model-card .fuel-badge.ev{background:rgba(76,141,255,.2);color:var(--ev);}
+  .no-models{font-size:14px;color:var(--muted);padding:20px;background:var(--panel);border-radius:6px;text-align:center;}
+
+  .stack-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:14px 0 10px;font-family:'IBM Plex Mono',monospace;}
+  .stack-legend span{display:flex;align-items:center;}
+
+  .out-table td, .out-table th{font-size:13px;white-space:nowrap;padding:8px 10px;}
+  .out-table td.best{color:var(--good);}
+  .table-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line2) var(--bg);}
+  .table-scroll::-webkit-scrollbar{height:9px;}
+  .table-scroll::-webkit-scrollbar-track{background:var(--bg);border-radius:8px;}
+  .table-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px;}
+  .table-scroll::-webkit-scrollbar-thumb:hover{background:var(--muted2);}
+  .table-scroll table{min-width:560px;}
+  .scroll-slider-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+  .scroll-slider-row.dim{opacity:.35;}
+  .scroll-slider-row .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);white-space:nowrap;}
+  .scroll-slider-row input[type=range]{height:3px;}
+  .dl-btn{
+    background:var(--ev);color:#0d1117;border:none;border-radius:6px;padding:9px 16px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px;letter-spacing:.01em;
+  }
+  .dl-btn:hover{background:#6ba0ff;}
+  .dl-btn:disabled{opacity:.5;cursor:progress;}
+  .calc-head-right{display:flex;align-items:center;gap:14px;}
+
+  .bars{display:flex;flex-direction:column;gap:12px;margin-bottom:10px;}
+  .bar-row{display:grid;grid-template-columns:76px minmax(40px,1fr) auto;align-items:center;gap:10px;}
+  .bar-row .fname{font-size:12.5px;font-family:'IBM Plex Mono',monospace;color:var(--muted);overflow-wrap:break-word;}
+  .bar-track{background:var(--bg);height:20px;border-radius:20px;overflow:hidden;position:relative;border:1px solid var(--line);min-width:0;}
+  .bar-fill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:20px;}
+  .bar-row .bval{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right;white-space:nowrap;}
+
+  .matrix-table th, .matrix-table td{font-size:13px;}
+  .matrix-table td.winner{font-weight:600;}
+
+  .footnote{font-size:12.5px;color:var(--muted2);margin-top:8px;}
+
+  footer{padding:40px 0 80px;}
+  footer p{font-size:13px;color:var(--muted2);max-width:72ch;}
+  .src-list{font-size:12.5px;color:var(--muted2);max-width:72ch;}
+  .src-list li{margin-bottom:4px;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+
+  .profile-card{border:1px solid var(--line);padding:16px 18px;background:var(--panel);border-radius:8px;}
+  .profile-card h4{margin:0 0 6px;font-size:15px;font-family:'Space Grotesk',sans-serif;}
+  .profile-card .pick{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:2px 8px;border-radius:20px;}
+  .checklist{list-style:none;padding-left:0;}
+  .checklist li{padding-left:26px;position:relative;margin-bottom:10px;}
+  .checklist li::before{content:"→";position:absolute;left:0;color:var(--muted2);font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+
+<header class="cover wrap">
+  <div class="kicker">COST-OF-OWNERSHIP MODEL · INDIA · UPDATED SEPTEMBER 2026</div>
+  <h1 class="title">Petrol, diesel, hybrid or EV : what it actually costs you ?</h1>
+  <p class="dek">A ground-up cost-of-ownership framework for Indian car buyers GST 2.0, state-by-state road tax, the Motor Vehicles Act's insurance mandate and pollution norms with a calculator that now handles new or used cars, private or commercial used across all 36 states/UTs, climate effects on EV range and the Delhi-NCR age-ban rule.</p>
+  <div class="stat-strip">
+    <div class="cell"><div class="fuel-label"><span class="dot petrol"></span>Petrol</div><div class="num">18%</div><div class="sub">GST if ≤4m &amp; ≤1200cc, else 40%</div></div>
+    <div class="cell"><div class="fuel-label"><span class="dot diesel"></span>Diesel</div><div class="num">18%</div><div class="sub">GST if ≤4m &amp; ≤1500cc, else 40%</div></div>
+    <div class="cell"><div class="fuel-label"><span class="dot hybrid"></span>Hybrid</div><div class="num">18%</div><div class="sub">Same small-car test as petrol/diesel</div></div>
+    <div class="cell"><div class="fuel-label"><span class="dot ev"></span>Electric</div><div class="num">5%</div><div class="sub">Flat, regardless of size — for now</div></div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">01</span><h2>The Four Costs Everyone Overlooks</h2></div>
+  <p>Most people shop for a car by looking at just one number i.e the on-road price. This is how smart buyers end up making expensive mistakes. Every vehicle, whether petrol, diesel, hybrid or electric has four distinct cost categories that all affect each other:</p>
+  <ol>
+    <li><b>Entry cost:</b> Ex-showroom price, GST, road tax, registration and your first year's insurance. Which is everything you pay before you drive it home.</li>
+    <li><b>Running cost:</b> fuel or electricity spent, which depends directly on how many kilometers you drive and the climate where you drive it.</li>
+    <li><b>Maintenance cost:</b> servicing, tyres, tolls, insurance renewals, loan interest if you finance it and for EVs or hybrids, a potential battery replacement.</li>
+    <li><b>Resale value:</b> what you get back when you eventually sell it, shaped as much by government rules (age limits, scrappage policies) as by actual market demand.</li>
+  </ol>
+  <p>The calculator below adds up all four cost blocks based on your specific car, your state, your driving habits and your situation which includes whether you're buying new or used, for personal use or commercial purposes.</p>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">02</span><h2>GST 2.0: the tax that just got simpler</h2></div>
+  <p>Since the 56th GST Council meeting, effective <b>22 September 2025</b>, the old four-slab structure (5/12/18/28% plus a compensation cess of up to 22%) was scrapped for passenger vehicles:</p>
+  <table>
+    <caption>GST 2.0 — passenger vehicle slabs (no compensation cess)</caption>
+    <thead><tr><th>Category</th><th>Test</th><th class="num">GST</th></tr></thead>
+    <tbody>
+      <tr><td>Small car</td><td>Length ≤ 4,000mm, engine ≤ 1200cc petrol/CNG or ≤ 1500cc diesel</td><td class="num">18%</td></tr>
+      <tr><td>Large car / SUV / luxury</td><td>Exceeds either threshold, regardless of fuel — this is where most mid-size hybrid SUVs land</td><td class="num">40%</td></tr>
+      <tr><td>Electric vehicle</td><td>Any size, battery-electric or fuel-cell</td><td class="num">5%</td></tr>
+    </tbody>
+  </table>
+  <p>This is why a hybrid SUV and a diesel SUV of the same footprint end up taxed identically at 40%, while the EV variant of the exact same car is taxed at 5%, the price gap between them is mostly about which GST bucket they fall into, not the hardware.</p>
+  <div class="callout warn">
+    <b>The 5% EV rate is a policy choice, not a permanent fixture.</b> It exists to push adoption. Every GST Council meeting is a chance to narrow that gap. Pricing in "EV taxation stays this favourable forever" is the one assumption this whole comparison can't survive.
+  </div>
+  <p>One nuance worth knowing: if the car is bought for a <b>passenger/transport business</b> i.e a cab, a rental fleet, a driving school then the GST paid can usually be claimed back as input tax credit under Section 17(5)(a). For a private buyer this GST is a sunk cost but for a registered transport operator, it often isn't. The calculator below has a toggle for this.</p>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Road tax: the real lottery</h2></div>
+  <p>Road tax is a <i>state</i> subject which is the single biggest reason two identical cars can cost ₹1–2 lakh apart depending on which RTO you register at. The calculator carries illustrative one-time rates for all 28 states and 8 union territories. Please treat every number as a starting point, not a quote.</p>
+  <table>
+    <caption>Selected states, September 2026 — verify current slabs with your RTO</caption>
+    <thead><tr><th>State</th><th>Petrol/diesel/hybrid</th><th>Electric</th></tr></thead>
+    <tbody>
+      <tr><td>Delhi</td><td>4–12.5% (slab by price)</td><td><b>0%</b> — full road tax + registration waiver up to ₹30L ex-showroom under Delhi EV Policy 2026</td></tr>
+      <tr><td>Telangana</td><td>~9–14%</td><td><b>0%</b> — continues to exempt EVs from road tax and registration</td></tr>
+      <tr><td>Maharashtra</td><td>~11–13%</td><td><b>0%</b> under state EV policy incentives</td></tr>
+      <tr><td>Uttar Pradesh</td><td>~8–10%</td><td><b>0%</b> if manufactured in-state; concessional otherwise</td></tr>
+      <tr><td>Karnataka</td><td>13–18%</td><td><b>5% / 8% / 10%</b> lifetime tax by price slab which is effective 1st April 2026, ending a decade of full exemption</td></tr>
+      <tr><td>Kerala</td><td>~15–20% (one of the steepest slabs nationally)</td><td>0% up to a price threshold, ~5% above it</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn">
+    <b>Karnataka is the case study, not the exception.</b> A 100% EV road-tax exemption ran from 2016 to 1 April 2026, when it was replaced by a price-linked 5–10% lifetime tax to close a revenue shortfall. Treat today's zero-road-tax states as a temporary discount, not a permanent feature, especially over a 5–7 year loan.
+  </div>
+  <p>Commercial registration (yellow plate: cabs, rentals) typically carries a different tax structure again, often higher than private one-time tax. The calculator applies an illustrative loading for this when you flag commercial use.</p>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Insurance: mandatory, rising, and fuel-biased</h2></div>
+  <ul>
+    <li><b>Minimum cover just got longer, again.</b> IRDAI mandated 3-year third-party cover for new cars from September 2018. In 2026 the Supreme Court extended this to <b>4 years</b> upfront for new cars.</li>
+    <li><b>Comprehensive cover</b> is priced off Insured Declared Value (IDV), which depreciates fastest in year one and roughly 5–10%/year after.</li>
+    <li><b>EVs carry a real premium</b>: Expensive battery packs, imported parts, thinner repair networks. 30–45% higher than petrol is common.</li>
+    <li><b>Commercial/cab insurance</b> runs meaningfully higher again where more kilometres, more passengers, higher claim frequency, and mandatory passenger-cover add-ons.</li>
+    <li><b>PUC status now gates your insurance renewal</b> according to the Supreme Court direction in the M.C. Mehta case made a valid PUC a precondition for policy renewal.</li>
+  </ul>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Pollution and place: rules that follow the car, not just the fuel</h2></div>
+  <div class="grid2">
+    <div>
+      <h3 style="font-size:16px;">PUC certificate</h3>
+      <p style="font-size:14.5px;">Mandatory under the Central Motor Vehicle Rules for every petrol, diesel and CNG car but is not required for pure EVs. Renewal is roughly every 6–12 months. Driving without a valid one risks a fine up to <b>₹10,000</b> and can block insurance renewal outright.</p>
+    </div>
+    <div>
+      <h3 style="font-size:16px;">The Delhi-NCR age ban</h3>
+      <p style="font-size:14.5px;">Under NGT/Supreme Court directions, <b>diesel vehicles older than 10 years and petrol vehicles older than 15 years cannot be registered or driven in Delhi-NCR</b>. This applies to the whole NCR region (Gurugram, Noida, Ghaziabad, Faridabad included), not just Delhi state itself, which is why the calculator treats "NCR zone" as its own flag rather than tying it to the state dropdown.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">06</span><h2>The exit tax: scrappage, green tax, and buying used</h2></div>
+  <ul>
+    <li>Private vehicles face a mandatory fitness test after <b>15 years</b> and de-registration if unfit or unrenewed by <b>20 years</b>. A <b>green tax</b> applies on renewal past 15 years.</li>
+    <li>Scrapping a vehicle earns a certificate worth roughly <b>4–6%</b> of a new car's ex-showroom price, often paired with a manufacturer discount and a state road-tax rebate on the replacement vehicle.</li>
+    <li><b>Buying used sidesteps GST and road tax entirely</b>: Those which were already paid by the first owner, it also means you inherit however many years the NCR age ban or the national scrappage clock has already used up. A 7-year-old diesel bought in Gurugram has 3 years of legal life left, not the 10 a buyer might assume from the purchase date alone.</li>
+  </ul>
+</section>
+
+<section class="wide">
+  <div class="sec-head wrap" style="padding:0;max-width:1160px;"><span class="sec-num">07</span><h2>Run your own numbers</h2></div>
+  <p class="wrap" style="padding:0;max-width:72ch;">Choose new or used, private or commercial, your state, climate and driving pattern. The model recomputes on-road price, running cost, financing, resale and a year-by-year cost trajectory line.</p>
+
+  <div class="calc">
+    <div class="calc-head">
+      <h3>Total cost of ownership</h3>
+      <div class="calc-head-right">
+        <div class="muted">All figures in ₹ · updates instantly</div>
+        <button class="dl-btn" id="downloadBtn" type="button">⬇ Download Excel</button>
+      </div>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-inputs">
+        <div class="tabs" id="tabs">
+          <button class="tab-btn active" data-tab="car">Car &amp; tax</button>
+          <button class="tab-btn" data-tab="profile">Profile</button>
+          <button class="tab-btn" data-tab="usage">Usage</button>
+          <button class="tab-btn" data-tab="finance">Financing</button>
+          <button class="tab-btn" data-tab="advanced">Advanced</button>
+        </div>
+
+        <div class="tab-panel" data-panel="profile">
+          <div class="persona-grid" id="personaGrid">
+            <div class="persona-card active" data-persona="city_charge"><b>City + home charging</b>Daily commute, wall-box at home</div>
+            <div class="persona-card" data-persona="city_nocharge"><b>City, no charger</b>Daily commute, flat/no charging point</div>
+            <div class="persona-card" data-persona="offroad"><b>Hills / off-road</b>High altitude, low city share</div>
+            <div class="persona-card" data-persona="longtrip"><b>City + long trips</b>2–4 highway trips a year</div>
+            <div class="persona-card" data-persona="unsure"><b>Budget-tight / unsure</b>Flexibility matters most</div>
+            <div class="persona-card" data-persona="cab"><b>Cab / ride-hailing</b>Commercial, very high km</div>
+          </div>
+        </div>
+
+        <div class="tab-panel active" data-panel="car">
+          <div class="seg" id="priceModeSeg">
+            <button data-mode="custom" class="active">My own quotes</button>
+            <button data-mode="used">Used car</button>
+          </div>
+
+
+          <div id="modeCustom">
+            <div class="field"><label>GST class</label>
+              <select id="gstclass">
+                <option value="small">Small car (≤4m)</option>
+                <option value="large" selected>Large / SUV</option>
+              </select>
+              <div style="font-size:11px;color:var(--muted2);margin-top:6px;" id="gstHelper"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Petrol on-road (₹) <span class="val" id="v_cp_petrol"></span></label><input type="range" id="cp_petrol" min="700000" max="3000000" step="10000" value="1550000"></div>
+              <div class="field"><label>Diesel on-road (₹) <span class="val" id="v_cp_diesel"></span></label><input type="range" id="cp_diesel" min="700000" max="3000000" step="10000" value="1650000"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Hybrid on-road (₹) <span class="val" id="v_cp_hybrid"></span></label><input type="range" id="cp_hybrid" min="700000" max="3000000" step="10000" value="1950000"></div>
+              <div class="field"><label>EV on-road (₹) <span class="val" id="v_cp_ev"></span></label><input type="range" id="cp_ev" min="700000" max="3000000" step="10000" value="1900000"></div>
+            </div>
+          </div>
+
+          <div id="modeUsed" style="display:none;">
+            <div class="field">
+              <label>Used car purchase price (₹) <span class="val" id="v_usedprice"></span></label>
+              <input type="range" id="usedprice" min="200000" max="1800000" step="10000" value="700000">
+            </div>
+            <div class="field">
+              <label>Current age of the car (yrs) <span class="val" id="v_usedage"></span></label>
+              <input type="range" id="usedage" min="1" max="15" step="1" value="5">
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:4px;">
+            <label>Ownership horizon (yrs) <span class="val" id="v_years"></span></label>
+            <input type="range" id="years" min="1" max="10" step="1" value="5">
+            <div style="font-size:11px;color:var(--muted2);margin-top:6px;">How long you plan to keep the car (affects resale value in calculation)</div>
+          </div>
+          <div class="field">
+            <label>Registration state / UT</label>
+            <select id="state"></select>
+          </div>
+
+          <div id="ncrContainer" class="switch-row">
+            <div><div class="lbl">Delhi-NCR zone</div><div class="sub">Gurugram, Noida, Ghaziabad, Faridabad count too</div></div>
+            <label class="switch"><input type="checkbox" id="ncr"><span class="track"></span></label>
+          </div>
+          <div class="switch-row">
+            <div><div class="lbl">Commercial / ride-hailing use</div><div class="sub">Higher tax &amp; insurance, GST may be reclaimable</div></div>
+            <label class="switch"><input type="checkbox" id="commercial"><span class="track"></span></label>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="usage">
+          <div class="field">
+            <label>Annual distance (km) <span class="val" id="v_km"></span></label>
+            <input type="range" id="km" min="5000" max="80000" step="1000" value="12000">
+          </div>
+          <div class="field">
+            <label>City driving share <span class="val" id="v_city"></span></label>
+            <input type="range" id="citypct" min="0" max="100" step="5" value="80">
+          </div>
+          <div class="field">
+            <label>Home-charging share (EV) <span class="val" id="v_home"></span></label>
+            <input type="range" id="homepct" min="0" max="100" step="5" value="80">
+          </div>
+          <div class="field">
+            <label>Annual toll + parking (₹) <span class="val" id="v_toll"></span></label>
+            <input type="range" id="toll" min="0" max="80000" step="1000" value="8000">
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="finance">
+          <div class="switch-row">
+            <div class="lbl">Buying on loan</div>
+            <label class="switch"><input type="checkbox" id="financed" checked><span class="track"></span></label>
+          </div>
+          <div id="financeFields">
+            <div class="field">
+              <label>Down payment <span class="val" id="v_down"></span></label>
+              <input type="range" id="downpct" min="0" max="100" step="5" value="20">
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Interest rate p.a. <span class="val" id="v_rate"></span></label>
+                <input type="range" id="rate" min="7" max="15" step="0.25" value="9.5"></div>
+              <div class="field"><label>Loan tenure (yrs) <span class="val" id="v_tenure"></span></label>
+                <input type="range" id="tenure" min="1" max="8" step="1" value="5">
+                <div style="font-size:11px;color:var(--muted2);margin-top:4px;">Loan repayment period (can be shorter than ownership horizon)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="advanced">
+          <div class="field">
+            <label>Climate zone</label>
+            <select id="climate">
+              <option value="temperate">Temperate (most metros)</option>
+              <option value="hot">Hot &amp; arid (Rajasthan, interior Gujarat, Vidarbha)</option>
+              <option value="coastal">Coastal / humid (Mumbai, Chennai, Kolkata)</option>
+              <option value="cold">Himalayan / high-altitude cold (HP, Uttarakhand hills, Ladakh, NE hills)</option>
+            </select>
+          </div>
+          <div class="field" style="margin-top:20px;">
+            <label class="plain"><b>Fuel prices (current market rates)</b></label>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Petrol ₹/l <span class="val" id="v_pp"></span></label><input type="range" id="petrolprice" min="90" max="120" step="1" value="105"></div>
+            <div class="field"><label>Diesel ₹/l <span class="val" id="v_dp"></span></label><input type="range" id="dieselprice" min="80" max="110" step="1" value="93"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Home power ₹/unit <span class="val" id="v_hr"></span></label><input type="range" id="homerate" min="4" max="14" step="0.5" value="8"></div>
+            <div class="field"><label>Public DC ₹/unit <span class="val" id="v_pr"></span></label><input type="range" id="pubrate" min="12" max="28" step="1" value="20"></div>
+          </div>
+          <div class="field" style="margin-top:16px;">
+            <label class="plain"><input type="checkbox" id="battreplace" style="width:auto;display:inline;margin-right:8px;vertical-align:middle;">Assume EV/hybrid battery pack needs replacement in this window</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <div id="alertBox"></div>
+        <div class="verdict" id="verdict"></div>
+
+        <div class="stack-legend">
+          <span><span class="dot petrol"></span>On-road / financing</span>
+          <span><span class="dot diesel"></span>Running (fuel/energy)</span>
+          <span><span class="dot hybrid"></span>Service, insurance, tolls, repairs</span>
+          <span><span class="dot ev"></span>− Resale value returned</span>
+        </div>
+
+        <div class="table-scroll" id="breakdownScroll"><table class="out-table" id="breakdownTable"></table></div>
+        <div class="scroll-slider-row" id="breakdownSliderRow"><span class="lbl">◀ scroll ▶</span><input type="range" id="breakdownSlider" min="0" max="1000" value="0"></div>
+
+        <div style="margin-top:24px;">
+          <div class="stack-legend" style="margin-bottom:10px;">Net cost per km driven</div>
+          <div class="bars" id="perkmBars"></div>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="stack-legend" style="margin-bottom:10px;">Cumulative cost by year</div>
+          <p class="footnote" style="margin-top:0;">Running total before resale — this is where you can see one fuel type overtake another visually, year by year.</p>
+          <div class="table-scroll" id="yearlyScroll"><table class="out-table" id="yearlyTable"></table></div>
+          <div class="scroll-slider-row" id="yearlySliderRow"><span class="lbl">◀ scroll ▶</span><input type="range" id="yearlySlider" min="0" max="1000" value="0"></div>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="stack-legend" style="margin-bottom:10px;">Break-even distance vs. petrol</div>
+          <div class="table-scroll" id="breakevenScroll"><table class="out-table" id="breakevenTable"></table></div>
+          <div class="scroll-slider-row" id="breakevenSliderRow"><span class="lbl">◀ scroll ▶</span><input type="range" id="breakevenSlider" min="0" max="1000" value="0"></div>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="stack-legend" style="margin-bottom:10px;">Quick comparison across all six profiles</div>
+          <p class="footnote" style="margin-top:0;">Using your current price, state, climate and financing choices, with each profile's own driving pattern.</p>
+          <div class="table-scroll" id="matrixScroll"><table class="out-table matrix-table" id="matrixTable"></table></div>
+          <div class="scroll-slider-row" id="matrixSliderRow"><span class="lbl">◀ scroll ▶</span><input type="range" id="matrixSlider" min="0" max="1000" value="0"></div>
+        </div>
+
+        <div style="border-top:1px solid var(--line2);margin-top:24px;padding-top:20px;">
+          <div class="callout" style="margin:0 0 16px 0;">
+            <b>What does "Approx. monthly cost" include?</b><br>This represents your average monthly expense and includes fuel or electricity costs, maintenance and service, insurance premiums, and tolls. It does not include your down payment or initial registration fees, which are paid upfront as one-time costs. For electric vehicles, battery replacement costs (if applicable during your ownership period) are shown separately as they are a significant expense.
+          </div>
+          <div class="callout" style="margin:0;">
+            <b>What is "ONE-OFF"?</b><br><code class="mono">ONE-OFF</code> refers to costs that occur only once during your entire ownership period. These include registration and documentation charges, your first insurance premium, and for electric vehicles, potential battery pack replacement expenses. Unlike monthly or annual recurring costs, these are paid just a single time and then never again during the years you own the car.
+          </div>
+        </div>
+
+        <p class="muted footnote" style="margin-top:24px;">This model is a planning aid, not a quote. On-road prices, insurance premiums, loan rates and resale values vary by dealer, insurer, bank and month — use it to compare options under the same assumptions, then verify the winning option's real numbers before you buy.</p>
+
+        <!-- Recommended Models Section -->
+        <div class="models-section" id="modelsSection" style="display:none;">
+          <h3>Models in your price range</h3>
+          <div id="modelsContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Six buyer profiles, cross-checked against the rules above</h2></div>
+  <div class="grid2" style="margin-top:8px;">
+    <div class="profile-card">
+      <h4>Daily city commute + home charging <span class="pick tag ev">EV</span></h4>
+      <p style="font-size:14px;">Lowest GST, often lowest road tax, cheapest running cost by a wide margin. Confirm your state hasn't quietly followed Karnataka before assuming "zero road tax."</p>
+    </div>
+    <div class="profile-card">
+      <h4>Daily city commute, no charger <span class="pick tag hybrid">Hybrid</span></h4>
+      <p style="font-size:14px;">Avoids the public-charging queue entirely, still gets strong city mileage from regenerative braking. Needs a ₹15–20L+ budget.</p>
+    </div>
+    <div class="profile-card">
+      <h4>Hills, off-road, high altitude <span class="pick tag diesel">Diesel</span></h4>
+      <p style="font-size:14px;">Torque, range and fuel availability favour diesel whereas the cold climates hurt EV range more than diesel's mileage, which the calculator now reflects directly.</p>
+    </div>
+    <div class="profile-card">
+      <h4>City use + a few long trips a year <span class="pick tag hybrid">Hybrid</span></h4>
+      <p style="font-size:14px;">No range anxiety on the highway, self-charges on the move, refuels anywhere in minutes.</p>
+    </div>
+    <div class="profile-card">
+      <h4>Tight budget, uncertain lifestyle <span class="pick tag petrol">Petrol</span></h4>
+      <p style="font-size:14px;">Lowest entry cost, widest service network, easiest resale. Factor a 10–15% mileage haircut from E20 blending into your fuel budget.</p>
+    </div>
+    <div class="profile-card">
+      <h4>Cab / ride-hailing, very high km <span class="pick tag ev">EV or Hybrid</span></h4>
+      <p style="font-size:14px;">At 50,000+ km/year, running cost dominates everything else whereas EV's low per-km energy cost compounds fastest, even after the commercial insurance and tax loading.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">09</span><h2>What flips this analysis</h2></div>
+  <ul>
+    <li><b>GST Council revisits the 5% EV rate</b> : a Council decision away, not a law change.</li>
+    <li><b>More states copy Karnataka's road-tax slab</b> : A 0-to-10% swing is worth ₹1–3 lakh on a mid-size EV.</li>
+    <li><b>Battery warranty vs. real life diverge</b> : Budget for the replacement scenario at high annual km.</li>
+    <li><b>EV resale market matures</b> : Today's low resale reflects a thin secondhand market, not the car's real remaining life.</li>
+    <li><b>Heat and cold cut EV range in ways brochures don't show</b> : The climate-zone setting above is a real effect, not a rounding error, especially for high-altitude and desert buyers.</li>
+    <li><b>Commercial-use rules shift fastest</b> : Cab-aggregator regulation, ITC eligibility and commercial insurance loading are all more actively revised than private-vehicle rules.</li>
+    <li><b>Interest rates move</b> : A financed purchase is exposed to repo-rate cycles. A 2-point swing over 5 years can outweigh most tax differences above.</li>
+  </ul>
+</section>
+
+<section class="wrap">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Before you sign</h2></div>
+  <ul class="checklist">
+    <li>Check your registration state's <b>current</b> road-tax notification for EVs on the transport department website.</li>
+    <li>Confirm which GST slab your specific variant falls into as it's a straight 18-vs-40% swing.</li>
+    <li>Get an actual insurance quote for the fuel type and use case (private vs. commercial) you're leaning toward.</li>
+    <li>If you're in the wider NCR region and considering diesel i.e new or used, do run the 10-year age-ban into your resale plan, not just the national 15–20 year scrappage timeline.</li>
+    <li>Buying used: Ask for the registration date, not just the model year, and check how many "legal years" are actually left before an age ban or fitness test applies in your city.</li>
+    <li>Buying for commercial use: Confirm ITC eligibility with your accountant before assuming the GST is recoverable as it depends on registration type and exclusive business use.</li>
+    <li>Re-run this calculator with your dealer's actual on-road quote once you have it.</li>
+  </ul>
+</section>
+
+<footer class="wrap">
+  <p><b>Ideated by Rajjyoti Mazumdar.</b></p>
+  <p>This calculator came from getting frustrated with how car-buying decisions always come down to one number — the on-road price — when really it's the five-year cost that matters. It's built on actual government rules, state taxes, and real-world driving patterns so you can skip the guesswork and see which fuel type actually makes sense for you. The road taxes change, insurance premiums shift, and EV incentives come and go — so I've tried to build in the flexibility to account for your specific situation rather than forcing you into a generic answer.</p>
+  <p><b>What is TCO (Total Cost of Ownership)?</b> It's the complete cost of owning a car from the day you buy it until the day you sell it. Most people only look at the on-road price, but TCO includes everything — fuel, insurance, maintenance, registration, financing charges, and what you get back when you sell it. This calculator adds all those pieces together so you can compare different cars fairly.</p>
+  <p><b>Methodology note.</b> This model compares fuel types on a like-for-like basis using illustrative price ratios, or your own entered quotes, against current government tax, insurance and pollution rules. State road-tax, climate-mileage and commercial-use figures are simplified proxies for genuinely tiered, frequently revised systems. It is a starting point for comparison, not a quote. Plase donot consider it as a financial, tax or legal advice.</p>
+  <ul class="src-list">
+    <li>GST 2.0 car slabs — 56th GST Council Meeting, effective 22 September 2025 (CBIC notifications); input tax credit — Section 17(5)(a), CGST Act</li>
+    <li>State EV road tax — Delhi EV Policy 2026; Telangana, Maharashtra, Uttar Pradesh, Kerala state EV policies; Karnataka Motor Vehicles Taxation (Amendment) Act, 2026</li>
+    <li>Insurance mandate — Motor Vehicles Act, 1988, Section 146; IRDAI long-term third-party insurance circular, 2018; Supreme Court extension to 4-year cover, 2026</li>
+    <li>PUC and insurance linkage — M.C. Mehta vs. Union of India, Supreme Court; IRDAI circular, 2018</li>
+    <li>Delhi-NCR vehicle age ban — National Green Tribunal / Supreme Court directions on 10-year diesel and 15-year petrol vehicles across the NCR region</li>
+    <li>Vehicle Scrappage Policy, 2021 — Ministry of Road Transport and Highways</li>
+    <li>Grid emissions factor — Central Electricity Authority, India average grid CO₂ intensity (~0.71 kg CO₂/kWh)</li>
+  </ul>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const fuels = ['petrol','diesel','hybrid','ev'];
+  const fuelLabel = {petrol:'Petrol', diesel:'Diesel', hybrid:'Hybrid', ev:'Electric'};
+  const fuelColor = {petrol:'#e08a3c', diesel:'#a98456', hybrid:'#3fa88a', ev:'#4c8dff'};
+  const priceMult = {petrol:1.0, diesel:1.06, hybrid:1.28, ev:1.30};
+
+  // Global variables for loaded data
+  let stateRoadTax = {};
+  let carModels = {};
+  let vehicleCosts = {};
+  let governmentRules = {};
+  let appMeta = {};
+
+  // Load data from JSON files
+  async function loadDataFromJSON() {
+    try {
+      // Load metadata
+      const metaRes = await fetch('data/meta.json');
+      if (!metaRes.ok) throw new Error('Failed to load meta.json');
+      appMeta = await metaRes.json();
+      console.log('✓ Metadata loaded');
+
+      // Load state taxes
+      const taxesRes = await fetch('data/state-taxes.json');
+      if (!taxesRes.ok) throw new Error('Failed to load state-taxes.json');
+      stateRoadTax = await taxesRes.json();
+      console.log('✓ State taxes loaded');
+
+      // Load car models
+      const modelsRes = await fetch('data/car-models.json');
+      if (!modelsRes.ok) throw new Error('Failed to load car-models.json');
+      carModels = await modelsRes.json();
+      console.log('✓ Car models loaded');
+
+      // Load vehicle costs
+      const costsRes = await fetch('data/vehicle-costs.json');
+      if (!costsRes.ok) throw new Error('Failed to load vehicle-costs.json');
+      vehicleCosts = await costsRes.json();
+      console.log('✓ Vehicle costs loaded');
+
+      // Load government rules
+      const rulesRes = await fetch('data/government-rules.json');
+      if (!rulesRes.ok) throw new Error('Failed to load government-rules.json');
+      governmentRules = await rulesRes.json();
+      console.log('✓ Government rules loaded');
+
+      // Update page header with date from meta.json
+      const kicker = document.querySelector('.kicker');
+      if (kicker && appMeta.lastUpdatedFormatted) {
+        kicker.textContent = `COST-OF-OWNERSHIP MODEL · INDIA · UPDATED ${appMeta.lastUpdatedFormatted}`;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error loading data from JSON:', error);
+      // Fallback: Show warning to user
+      const warning = document.createElement('div');
+      warning.style.cssText = 'background:#fff3cd;border:1px solid #ffc107;padding:12px 16px;margin:16px;border-radius:6px;font-size:14px;';
+      warning.innerHTML = '⚠️ <strong>Note:</strong> Unable to load latest data. Using embedded fallback data. Some information may not be current.';
+      document.body.insertBefore(warning, document.body.firstChild);
+      return false;
+    }
+  }
+
+  // Initialize with fallback data if JSON loading fails
+  function initializeWithFallback() {
+    if (Object.keys(stateRoadTax).length === 0) {
+      stateRoadTax = stateRoadTax_fallback;
+      console.log('⚠️ Using fallback state tax data (JSON not loaded)');
+    }
+    if (Object.keys(carModels).length === 0) {
+      carModels = carModels_fallback;
+      console.log('⚠️ Using fallback car models data (JSON not loaded)');
+    }
+    if (Object.keys(vehicleCosts).length === 0) {
+      vehicleCosts = {
+        mileageBase: { petrol:{city:13.5,hwy:16}, diesel:{city:15,hwy:19}, hybrid:{city:22,hwy:21}, ev:{city:7.2,hwy:6.5} },
+        insuranceBaseFactor: {petrol:0.016, diesel:0.018, hybrid:0.018, ev:0.024},
+        resalePctNew: {petrol:0.51, diesel:0.47, hybrid:0.58, ev:0.44},
+        resalePctUsed: {petrol:0.62, diesel:0.58, hybrid:0.66, ev:0.55}
+      };
+      console.log('⚠️ Using fallback vehicle costs data (JSON not loaded)');
+    }
+    if (Object.keys(governmentRules).length === 0) {
+      governmentRules = {
+        commercialRoadTaxAdd: 5,
+        regnFeeFlat: 1500,
+        usedTransferFee: 5000,
+        evSetupCost: 2500
+      };
+      console.log('⚠️ Using fallback government rules data (JSON not loaded)');
+    }
+  }
+
+  const stateRoadTax_fallback = {
+    delhi:{label:"Delhi",ice:10,ev:0}, haryana:{label:"Haryana",ice:9,ev:0}, punjab:{label:"Punjab",ice:9,ev:0},
+    rajasthan:{label:"Rajasthan",ice:9,ev:0}, himachal:{label:"Himachal Pradesh",ice:8,ev:0}, up:{label:"Uttar Pradesh",ice:8,ev:0},
+    uttarakhand:{label:"Uttarakhand",ice:9,ev:0}, jk:{label:"Jammu &amp; Kashmir",ice:9,ev:0}, ladakh:{label:"Ladakh",ice:8,ev:0},
+    chandigarh:{label:"Chandigarh",ice:9,ev:0},
+    maharashtra:{label:"Maharashtra",ice:12,ev:0}, gujarat:{label:"Gujarat",ice:9,ev:0}, goa:{label:"Goa",ice:10,ev:0},
+    dnhdd:{label:"Dadra &amp; Nagar Haveli and Daman &amp; Diu",ice:6,ev:0},
+    karnataka:{label:"Karnataka (post-Apr 2026)",ice:16,ev:8}, tamilnadu:{label:"Tamil Nadu",ice:12,ev:0}, kerala:{label:"Kerala",ice:17,ev:5},
+    andhra:{label:"Andhra Pradesh",ice:13,ev:0}, telangana:{label:"Telangana",ice:12,ev:0}, puducherry:{label:"Puducherry",ice:8,ev:0},
+    lakshadweep:{label:"Lakshadweep",ice:4,ev:0}, andaman:{label:"Andaman &amp; Nicobar Islands",ice:6,ev:0},
+    westbengal:{label:"West Bengal",ice:9,ev:0}, odisha:{label:"Odisha",ice:10,ev:0}, bihar:{label:"Bihar",ice:9,ev:0}, jharkhand:{label:"Jharkhand",ice:9,ev:0},
+    mp:{label:"Madhya Pradesh",ice:10,ev:0}, chhattisgarh:{label:"Chhattisgarh",ice:7,ev:0},
+    assam:{label:"Assam",ice:6,ev:0}, manipur:{label:"Manipur",ice:8,ev:0}, meghalaya:{label:"Meghalaya",ice:8,ev:0},
+    mizoram:{label:"Mizoram",ice:8,ev:0}, nagaland:{label:"Nagaland",ice:8,ev:0}, tripura:{label:"Tripura",ice:8,ev:0},
+    sikkim:{label:"Sikkim",ice:8,ev:0}, arunachal:{label:"Arunachal Pradesh",ice:9,ev:0},
+    generic:{label:"Other / not sure yet",ice:11,ev:5},
+  };
+  const stateGroups = [
+    {label:"North", states:["delhi","haryana","punjab","rajasthan","himachal","up","uttarakhand","jk","ladakh","chandigarh"]},
+    {label:"West", states:["maharashtra","gujarat","goa","dnhdd"]},
+    {label:"South", states:["karnataka","tamilnadu","kerala","andhra","telangana","puducherry","lakshadweep","andaman"]},
+    {label:"East", states:["westbengal","odisha","bihar","jharkhand"]},
+    {label:"Central", states:["mp","chhattisgarh"]},
+    {label:"Northeast", states:["assam","manipur","meghalaya","mizoram","nagaland","tripura","sikkim","arunachal"]},
+    {label:"Generic", states:["generic"]},
+  ];
+
+  // Car Models Database (2026 approximate on-road prices in India)
+  const carModels_fallback = {
+    petrol: [
+      {brand: "Maruti", name: "Swift", price: 650000, specs: "1.2L, 5-seater hatchback"},
+      {brand: "Hyundai", name: "i20", price: 720000, specs: "1.2L, 5-seater hatchback"},
+      {brand: "Tata", name: "Tiago", price: 580000, specs: "1.2L, 5-seater hatchback"},
+      {brand: "Maruti", name: "Alto", price: 450000, specs: "0.8L, budget hatchback"},
+      {brand: "Hyundai", name: "Creta", price: 1150000, specs: "1.5L, compact SUV"},
+      {brand: "Kia", name: "Seltos", price: 1100000, specs: "1.5L, compact SUV"},
+      {brand: "Maruti", name: "Ciaz", price: 1050000, specs: "1.5L, sedan"},
+      {brand: "Honda", name: "City", price: 1180000, specs: "1.5L, sedan"},
+      {brand: "Mahindra", name: "Bolero", price: 890000, specs: "1.5L, SUV"},
+      {brand: "Tata", name: "Punch", price: 650000, specs: "1.2L, compact SUV"},
+      {brand: "Renault", name: "Kiger", price: 700000, specs: "1.0L turbo, compact SUV"},
+      {brand: "MG", name: "Astor", price: 1050000, specs: "1.5L, compact SUV"},
+      {brand: "Volkswagen", name: "Polo", price: 850000, specs: "1.0L, hatchback"},
+      {brand: "Skoda", name: "Slavia", price: 1100000, specs: "1.0L turbo, sedan"},
+    ],
+    diesel: [
+      {brand: "Maruti", name: "Swift (Diesel)", price: 750000, specs: "1.3L, 5-seater hatchback"},
+      {brand: "Hyundai", name: "i20 (Diesel)", price: 820000, specs: "1.5L, 5-seater hatchback"},
+      {brand: "Tata", name: "Tiago (Diesel)", price: 680000, specs: "1.05L, 5-seater hatchback"},
+      {brand: "Hyundai", name: "Creta (Diesel)", price: 1280000, specs: "1.5L, compact SUV"},
+      {brand: "Kia", name: "Seltos (Diesel)", price: 1220000, specs: "1.5L, compact SUV"},
+      {brand: "Maruti", name: "Ertiga (Diesel)", price: 1150000, specs: "1.5L, 7-seater MPV"},
+      {brand: "Mahindra", name: "Bolero (Diesel)", price: 990000, specs: "1.5L, SUV"},
+      {brand: "Tata", name: "Nexon (Diesel)", price: 1050000, specs: "1.5L, compact SUV"},
+      {brand: "MG", name: "Astor (Diesel)", price: 1150000, specs: "1.5L, compact SUV"},
+      {brand: "Skoda", name: "Slavia (Diesel)", price: 1200000, specs: "1.5L, sedan"},
+    ],
+    hybrid: [
+      {brand: "Maruti", name: "Brezza Hybrid", price: 950000, specs: "1.5L Strong Hybrid, compact SUV"},
+      {brand: "Maruti", name: "Ciaz Hybrid", price: 1150000, specs: "1.5L Hybrid, sedan"},
+      {brand: "Maruti", name: "Ertiga Hybrid", price: 1250000, specs: "1.5L Hybrid, 7-seater MPV"},
+      {brand: "Maruti", name: "XL5 Hybrid", price: 1050000, specs: "1.5L Hybrid, compact SUV"},
+      {brand: "Maruti", name: "Swift Hybrid", price: 800000, specs: "1.2L Hybrid, hatchback"},
+      {brand: "Toyota", name: "Glanza Hybrid", price: 950000, specs: "1.5L Hybrid, hatchback"},
+      {brand: "Toyota", name: "Fortuner Hybrid", price: 2850000, specs: "2.8L Hybrid, full-size SUV"},
+    ],
+    ev: [
+      {brand: "Tata", name: "Tiago EV", price: 850000, specs: "150km range, 5-seater hatchback"},
+      {brand: "Tata", name: "Nexon EV", price: 1550000, specs: "312km range, compact SUV"},
+      {brand: "Tata", name: "Nexon EV Max", price: 1750000, specs: "437km range, compact SUV"},
+      {brand: "MG", name: "ZS EV", price: 1580000, specs: "461km range, compact SUV"},
+      {brand: "Hyundai", name: "Kona EV", price: 2350000, specs: "452km range, compact SUV"},
+      {brand: "Hyundai", name: "Ioniq 5", price: 3850000, specs: "614km range, premium sedan"},
+      {brand: "Kia", name: "EV6", price: 4050000, specs: "628km range, premium sedan"},
+      {brand: "BYD", name: "Qin EV", price: 1950000, specs: "401km range, sedan"},
+      {brand: "Mahindra", name: "XUV 400", price: 1650000, specs: "456km range, compact SUV"},
+      {brand: "Mahindra", name: "BE 6e", price: 2450000, specs: "485km range, premium SUV"},
+      {brand: "JSW", name: "Altigreen Charge", price: 1450000, specs: "250km range, compact sedan"},
+      {brand: "BYD", name: "Yuan Plus EV", price: 2550000, specs: "500km range, premium SUV"},
+      {brand: "BMW", name: "i3", price: 4950000, specs: "420km range, premium hatchback"},
+    ]
+  };
+
+  function populateStates(){
+    const sel = $('state');
+    stateGroups.forEach(g=>{
+      const og = document.createElement('optgroup'); og.label = g.label;
+      g.states.forEach(key=>{
+        const opt = document.createElement('option'); opt.value = key; opt.innerHTML = stateRoadTax[key].label;
+        if(key === 'delhi') opt.selected = true;
+        og.appendChild(opt);
+      });
+      sel.appendChild(og);
+    });
+  }
+
+  // Getter functions for cost factors (loads from JSON or fallback)
+  function getMileageBase() { return vehicleCosts.mileageBase || { petrol:{city:13.5,hwy:16}, diesel:{city:15,hwy:19}, hybrid:{city:22,hwy:21}, ev:{city:7.2,hwy:6.5} }; }
+  function getInsuranceBaseFactor() { return vehicleCosts.insuranceBaseFactor || {petrol:0.016, diesel:0.018, hybrid:0.018, ev:0.024}; }
+  function getResalePctNew() { return vehicleCosts.resalePctNew || {petrol:0.51, diesel:0.47, hybrid:0.58, ev:0.44}; }
+  function getResalePctUsed() { return vehicleCosts.resalePctUsed || {petrol:0.62, diesel:0.58, hybrid:0.66, ev:0.55}; }
+
+  const climateFactors = {
+    temperate:{ice:1.0, ev:1.0},
+    hot:{ice:0.97, ev:0.87},
+    coastal:{ice:0.98, ev:0.94},
+    cold:{ice:0.95, ev:0.80},
+  };
+
+  const serviceBase = {petrol:16000, diesel:30000, hybrid:14000, ev:10000};
+  const wearExtra   = {petrol:0.35, diesel:0.65, hybrid:0.20, ev:0.08};
+  const insuranceDecay = 0.06;
+  const commercialInsuranceMult = 1.35;
+  const commercialRoadTaxAdd = 5; // percentage points
+  const ncrAgeLimit = {petrol:15, diesel:10, hybrid:15, ev:999};
+  const scrapResaleFraction = 0.10;
+  const batteryCost = {ev: 700000, hybrid: 220000};
+  const evSetupCost = 45000;
+  const regnFeeFlat = 15000;
+  const usedTransferFee = 3000;
+  const co2Factor = {petrol:2.31, diesel:2.68, hybrid:2.31, evPerKwh:0.71};
+
+  const personaPresets = {
+    city_charge:  {km:10000, city:90, home:85, commercial:false},
+    city_nocharge:{km:11000, city:85, home:20, commercial:false},
+    offroad:      {km:14000, city:30, home:50, commercial:false},
+    longtrip:     {km:16000, city:65, home:60, commercial:false},
+    unsure:       {km:9000,  city:75, home:50, commercial:false},
+    cab:          {km:60000, city:75, home:40, commercial:true},
+  };
+  const personaLabels = {city_charge:"City + home charging", city_nocharge:"City, no charger", offroad:"Hills / off-road", longtrip:"City + long trips", unsure:"Budget-tight / unsure", cab:"Cab / ride-hailing"};
+
+  function fmt(n){ n = Math.round(n); const sign = n<0 ? '−' : ''; return sign + '₹' + Math.abs(n).toLocaleString('en-IN'); }
+  function fmtKm(n){ return Math.round(n).toLocaleString('en-IN') + ' km'; }
+  function gstRate(fuel, cls){ if(fuel === 'ev') return 0.05; return cls === 'small' ? 0.18 : 0.40; }
+  function emi(principal, annualRatePct, years){
+    const r = (annualRatePct/100)/12; const n = years*12;
+    if(r===0) return principal/n;
+    return principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+  }
+
+  let priceMode = 'custom';
+
+  function read(){
+    return {
+      priceMode,
+      cls: $('gstclass').value,
+      customPrice: {petrol:+$('cp_petrol').value, diesel:+$('cp_diesel').value, hybrid:+$('cp_hybrid').value, ev:+$('cp_ev').value},
+      usedPrice: +$('usedprice').value,
+      usedAge: +$('usedage').value,
+      years: +$('years').value,
+      state: $('state').value,
+      ncr: $('ncr').checked,
+      commercial: $('commercial').checked,
+      km: +$('km').value,
+      citypct: +$('citypct').value,
+      homepct: +$('homepct').value,
+      climate: $('climate').value,
+      toll: +$('toll').value,
+      petrolprice: +$('petrolprice').value,
+      dieselprice: +$('dieselprice').value,
+      homerate: +$('homerate').value,
+      pubrate: +$('pubrate').value,
+      battreplace: $('battreplace').checked,
+      financed: $('financed').checked,
+      downpct: +$('downpct').value,
+      rate: +$('rate').value,
+      tenure: +$('tenure').value,
+    };
+  }
+
+  function baseOnRoad(f, inputs, tax){
+    if(inputs.priceMode === 'custom'){
+      return {onRoad: inputs.customPrice[f], gstAmount:0};
+    }
+    if(inputs.priceMode === 'used'){
+      return {onRoad: inputs.usedPrice + usedTransferFee, gstAmount:0};
+    }
+  }
+
+  function getPriceBreakdown(f, inputs, tax){
+    // Calculate price breakdown from on-road price
+    // on-road = ex-showroom + GST + road tax + registration fee
+    // Working backwards to show what the ex-showroom price is
+    
+    if(inputs.priceMode !== 'custom'){
+      return null;
+    }
+    
+    const onRoadPrice = inputs.customPrice[f];
+    const gstRateVal = gstRate(f, inputs.cls);
+    const roadTaxPct = (f === 'ev' ? tax.ev : tax.ice) / 100;
+    const commercialTax = inputs.commercial ? (commercialRoadTaxAdd / 100) : 0;
+    
+    // Approximate ex-showroom price (working backwards)
+    // This is approximate because: onRoad = exShow*(1+GST)*(1+roadTax%) + regnFee
+    const denominator = (1 + gstRateVal) * (1 + roadTaxPct + commercialTax);
+    const exShowApprox = (onRoadPrice - regnFeeFlat) / denominator;
+    const gstAmountApprox = exShowApprox * gstRateVal;
+    const roadTaxApprox = (exShowApprox * (1 + gstRateVal)) * (roadTaxPct + commercialTax);
+    
+    return {
+      exShowroom: exShowApprox,
+      gst: gstAmountApprox,
+      roadTax: roadTaxApprox,
+      registration: regnFeeFlat,
+      onRoad: onRoadPrice,
+      gstRatePercent: gstRateVal * 100
+    };
+  }
+
+  function annualRunning(f, inputs){
+    const cf = climateFactors[inputs.climate] || climateFactors.temperate;
+    if(f === 'ev'){
+      const factor = cf.ev;
+      const kmPerUnit = (getMileageBase().ev.city*(inputs.citypct/100) + getMileageBase().ev.hwy*(1-inputs.citypct/100)) * factor;
+      const units = inputs.km / kmPerUnit;
+      const blendedRate = inputs.homerate*(inputs.homepct/100) + inputs.pubrate*(1-inputs.homepct/100);
+      return {cost: units*blendedRate, units};
+    }
+    const factor = cf.ice;
+    const kmpl = (getMileageBase()[f].city*(inputs.citypct/100) + getMileageBase()[f].hwy*(1-inputs.citypct/100)) * factor;
+    const litres = inputs.km / kmpl;
+    const price = f === 'diesel' ? inputs.dieselprice : inputs.petrolprice;
+    return {cost: litres*price, litres};
+  }
+
+  function compute(inputs){
+    const tax = stateRoadTax[inputs.state] || stateRoadTax.generic;
+    const out = {};
+    fuels.forEach(f=>{
+      const base = baseOnRoad(f, inputs, tax);
+      let onRoad = base.onRoad;
+      let itcRecovered = (inputs.commercial && inputs.priceMode==='custom') ? base.gstAmount : 0;
+      const onRoadEffective = onRoad - itcRecovered;
+
+      let financeCost = 0, emiAmt = 0, principal = 0;
+      if(inputs.financed){
+        principal = onRoadEffective * (1 - inputs.downpct/100);
+        emiAmt = emi(principal, inputs.rate, inputs.tenure);
+        financeCost = (emiAmt * inputs.tenure * 12) - principal;
+      }
+
+      const ar = annualRunning(f, inputs);
+      const kmRatio = inputs.km / 12000;
+      const wearMult = 1 + Math.max(0, kmRatio-1) * wearExtra[f];
+      const insMult = inputs.commercial ? commercialInsuranceMult : 1;
+
+      // year-by-year
+      const yearly = [];
+      let cum = onRoadEffective;
+      let totalUnits=0, totalLitres=0, runningTotal=0, serviceTotal=0, insTotal=0, tollTotal=0;
+      for(let y=1;y<=inputs.years;y++){
+        const runY = ar.cost * Math.pow(1.05, y-1);
+        runningTotal += runY;
+        if(f==='ev') totalUnits += ar.units; else totalLitres += ar.litres;
+
+        const svcY = serviceBase[f]*wearMult*Math.pow(1.03,y-1);
+        serviceTotal += svcY;
+
+        let insY = 0;
+        if(y>=2){ const decayFactor = Math.max(0.4, 1 - insuranceDecay*(y-2)); insY = onRoad * getInsuranceBaseFactor()[f] * decayFactor * insMult; }
+        insTotal += insY;
+
+        const tollY = inputs.toll * Math.pow(1.03, y-1);
+        tollTotal += tollY;
+
+        const financeAlloc = inputs.financed ? financeCost * (Math.min(y,inputs.tenure) - Math.min(y-1,inputs.tenure)) / inputs.tenure : 0;
+        cum += runY + svcY + insY + tollY + financeAlloc;
+        yearly.push(cum);
+      }
+
+      let oneOff = 0;
+      if(f === 'ev' && inputs.priceMode !== 'used') oneOff += evSetupCost;
+      const totalKm = inputs.km * inputs.years;
+      const warrantyKm = 160000;
+      if((f==='ev'||f==='hybrid') && inputs.battreplace && totalKm >= warrantyKm*0.8){ oneOff += batteryCost[f]; }
+      cum += oneOff; // reflect one-off in final cumulative (attributed to last year for the table)
+      if(yearly.length) yearly[yearly.length-1] += oneOff;
+
+      // resale, with NCR forced-scrap override
+      const resaleTable = inputs.priceMode === 'used' ? getResalePctUsed() : getResalePctNew();
+      const ageAtSale = (inputs.priceMode==='used' ? inputs.usedAge : 0) + inputs.years;
+      let forcedScrap = false;
+      let resalePctEff = resaleTable[f];
+      if(inputs.ncr && ageAtSale >= ncrAgeLimit[f]){ resalePctEff = scrapResaleFraction; forcedScrap = true; }
+      const resale = onRoad * resalePctEff;
+
+      const net = onRoadEffective + financeCost + runningTotal + serviceTotal + insTotal + tollTotal + oneOff - resale;
+      const perKm = net / totalKm;
+      const perKmRunningOnly = ar.cost / inputs.km;
+
+      let co2kg = f==='ev' ? totalUnits*co2Factor.evPerKwh : totalLitres*co2Factor[f];
+
+      out[f] = {onRoad, onRoadEffective, financeCost, emiAmt, runningTotal, serviceTotal, insTotal, tollTotal, oneOff, resale, net, perKm, perKmRunningOnly, co2kg, totalKm, upfrontExtra: onRoadEffective+financeCost, yearly, forcedScrap, ageAtSale};
+    });
+    return out;
+  }
+
+  function breakEvenTable(res){
+    const base = 'petrol';
+    let rows = '';
+    fuels.filter(f=>f!==base).forEach(f=>{
+      const fixedExtra = res[f].upfrontExtra - res[base].upfrontExtra;
+      const varDiff = res[base].perKmRunningOnly - res[f].perKmRunningOnly;
+      let text;
+      if(fixedExtra <= 0){ text = `Cheaper upfront too — no break-even needed`; }
+      else if(varDiff <= 0){ text = `Never — running cost isn't lower than petrol`; }
+      else {
+        const km = fixedExtra / varDiff;
+        text = fmtKm(km) + (km > res[f].totalKm ? ' (beyond your ownership window)' : '');
+      }
+      rows += `<tr><td><span class="dot ${f}"></span>${fuelLabel[f]}</td><td>${text}</td></tr>`;
+    });
+    return `<tr><th>Fuel</th><th>Distance to break even</th></tr>` + rows;
+  }
+
+  function matrixTable(inputs){
+    let head = `<tr><th>Profile</th><th>Winner</th><th class="num">Net cost/km</th></tr>`;
+    let rows = Object.keys(personaPresets).map(key=>{
+      const p = personaPresets[key];
+      const testInputs = Object.assign({}, inputs, {km:p.km, citypct:p.city, homepct:p.home, commercial: p.commercial});
+      const r = compute(testInputs);
+      let best = fuels[0];
+      fuels.forEach(f=>{ if(r[f].net < r[best].net) best = f; });
+      return `<tr><td>${personaLabels[key]}</td><td class="winner"><span class="dot ${best}"></span>${fuelLabel[best]}</td><td class="num">₹${r[best].perKm.toFixed(2)}</td></tr>`;
+    }).join('');
+    return head + rows;
+  }
+
+  function yearlyTable(res, years){
+    let head = `<tr><th>Fuel</th>` + Array.from({length:years},(_,i)=>`<th class="num">Yr ${i+1}</th>`).join('') + `</tr>`;
+    let rows = fuels.map(f=>{
+      const cells = res[f].yearly.map(v=>`<td class="num">${fmt(v)}</td>`).join('');
+      return `<tr><td><span class="dot ${f}"></span>${fuelLabel[f]}</td>${cells}</tr>`;
+    }).join('');
+    return head + rows;
+  }
+
+  function updateNCRVisibility(){
+    const ncrStates = ['delhi', 'haryana', 'up', 'punjab', 'chandigarh'];
+    const selectedState = $('state').value;
+    const ncrContainer = $('ncrContainer');
+    if(ncrStates.includes(selectedState)){
+      ncrContainer.style.display = 'block';
+    } else {
+      ncrContainer.style.display = 'none';
+      $('ncr').checked = false;
+    }
+  }
+
+  function updateGSTBreakdown(){
+    const gstClass = $('gstclass').value;
+    const helper = $('gstHelper');
+    
+    if(!helper) return;
+    
+    // Get average on-road price from custom inputs
+    const petrolOnRoad = +$('cp_petrol').value;
+    const dieselOnRoad = +$('cp_diesel').value;
+    const hybridOnRoad = +$('cp_hybrid').value;
+    const evOnRoad = +$('cp_ev').value;
+    
+    const avgOnRoad = (petrolOnRoad + dieselOnRoad + hybridOnRoad + evOnRoad) / 4;
+    const gstRate = gstClass === 'small' ? 0.18 : 0.40;
+    
+    // Work backwards: on-road = ex-showroom + GST + road tax + registration
+    // Approximate road tax as 9% (average across states)
+    const roadTaxPct = 0.09;
+    
+    // on-road ≈ ex-showroom * (1 + gst + roadTax) + regn fee
+    // Assuming regn fee ≈ 15,000 (typical)
+    const regnFee = 15000;
+    const denominator = 1 + gstRate + roadTaxPct;
+    const exShowroom = (avgOnRoad - regnFee) / denominator;
+    const gstAmount = exShowroom * gstRate;
+    const roadTax = exShowroom * roadTaxPct;
+    
+    const helperText = `${gstClass === 'small' ? '18%' : '40%'} GST • Approx. breakdown: Ex-showroom ~₹${fmt(exShowroom)} + GST ~₹${fmt(gstAmount)} + Road tax ~₹${fmt(roadTax)} + Registration ₹15k = On-road ₹${fmt(avgOnRoad)}`;
+    helper.textContent = helperText;
+  }
+
+  function updatePriceModeUI(){
+    const cust = $('modeCustom');
+    const used = $('modeUsed');
+    
+    if(cust) cust.style.display = (priceMode === 'custom') ? 'block' : 'none';
+    if(used) used.style.display = (priceMode === 'used') ? 'block' : 'none';
+    
+    document.querySelectorAll('#priceModeSeg button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.mode === priceMode);
+    });
+  }
+
+  function displayRecommendedModels(onRoadPrices){
+    const section = $('modelsSection');
+    const container = $('modelsContainer');
+    const priceRange = 0.18; // ±18% price tolerance
+    
+    let hasModels = false;
+    let html = '';
+    
+    const fuels = ['petrol','diesel','hybrid','ev'];
+    
+    fuels.forEach(fuel=>{
+      const price = onRoadPrices[fuel];
+      if(!price || price <= 0) return; // Skip if no valid price
+      
+      const models = carModels[fuel] || [];
+      const filtered = models.filter(m => Math.abs(m.price - price) / price <= priceRange);
+      
+      if(filtered.length > 0){
+        hasModels = true;
+        html += '<div style="margin-bottom:28px;">';
+        html += '<div class="stack-legend" style="margin-bottom:12px;"><span class="dot '+fuel+'"></span><b>'+fuel.toUpperCase()+' options</b></div>';
+        html += '<div class="models-grid">';
+        
+        filtered.sort((a,b)=>Math.abs(a.price-price)-Math.abs(b.price-price)).slice(0,6).forEach(model=>{
+          const diff = ((model.price - price) / price * 100).toFixed(0);
+          const diffLabel = diff > 0 ? `+₹${fmt(model.price-price)}` : `−₹${fmt(Math.abs(model.price-price))}`;
+          html += '<div class="model-card">';
+          html += '<div class="brand">'+model.brand+'</div>';
+          html += '<div class="name">'+model.name+'</div>';
+          html += '<div class="specs">'+model.specs+'</div>';
+          html += '<div class="price">'+fmt(model.price)+'</div>';
+          html += '<div style="font-size:11px;color:var(--muted);margin-top:6px;">'+diffLabel+' vs avg</div>';
+          html += '<span class="fuel-badge '+fuel+'">'+fuel+'</span>';
+          html += '</div>';
+        });
+        
+        html += '</div></div>';
+      }
+    });
+    
+    if(hasModels){
+      section.style.display = 'block';
+      container.innerHTML = html;
+    } else {
+      section.style.display = 'none';
+    }
+  }
+
+  function render(){
+    const inputs = read();
+    $('v_cp_petrol').textContent = fmt(inputs.customPrice.petrol);
+    $('v_cp_diesel').textContent = fmt(inputs.customPrice.diesel);
+    $('v_cp_hybrid').textContent = fmt(inputs.customPrice.hybrid);
+    $('v_cp_ev').textContent = fmt(inputs.customPrice.ev);
+    $('v_usedprice').textContent = fmt(inputs.usedPrice);
+    $('v_usedage').textContent = inputs.usedAge + ' yrs';
+    $('v_years').textContent = inputs.years + ' yrs';
+    $('v_km').textContent = inputs.km.toLocaleString('en-IN') + ' km/yr';
+    $('v_city').textContent = inputs.citypct + '% city';
+    $('v_home').textContent = inputs.homepct + '% home';
+    $('v_toll').textContent = fmt(inputs.toll)+'/yr';
+    $('v_pp').textContent = '₹'+inputs.petrolprice;
+    $('v_dp').textContent = '₹'+inputs.dieselprice;
+    $('v_hr').textContent = '₹'+inputs.homerate;
+    $('v_pr').textContent = '₹'+inputs.pubrate;
+    $('v_down').textContent = inputs.downpct + '%';
+    $('v_rate').textContent = inputs.rate + '%';
+    $('v_tenure').textContent = inputs.tenure + ' yrs';
+    $('financeFields').style.opacity = inputs.financed ? 1 : 0.35;
+    $('financeFields').style.pointerEvents = inputs.financed ? 'auto' : 'none';
+
+    const res = compute(inputs);
+
+    let best = fuels[0];
+    fuels.forEach(f=>{ if(res[f].net < res[best].net) best = f; });
+    const monthly = res[best].net / (inputs.years*12);
+
+    let alerts = '';
+    fuels.forEach(f=>{
+      if(res[f].forcedScrap){
+        alerts += `<div class="alert"><b>${fuelLabel[f]}</b> will hit its NCR legal age limit (car would be ${res[f].ageAtSale} years old) before or during this ownership window — resale is modelled at scrap value only, not market value.</div>`;
+      }
+    });
+    if(inputs.commercial && inputs.priceMode==='custom'){
+      alerts += `<div class="alert" style="background:rgba(76,141,255,.08);border-color:rgba(76,141,255,.4);color:var(--ev);">Commercial use: GST is modelled as recoverable via input tax credit, and road tax/insurance carry a commercial loading. Confirm eligibility with your accountant.</div>`;
+    }
+    $('alertBox').innerHTML = alerts;
+
+    const v = $('verdict');
+    v.innerHTML = `<div class="headline">Cheapest to own over ${inputs.years} years: <b class="tag ${best}">${fuelLabel[best]}</b></div>
+      <div class="muted" style="font-size:13.5px;">Net cost of ownership ${fmt(res[best].net)} after resale.</div>
+      <div class="metric-row">
+        <div class="m"><div class="k">Approx. monthly cost</div><div class="v">${fmt(monthly)}/mo</div></div>
+        <div class="m"><div class="k">Cost per km</div><div class="v">₹${res[best].perKm.toFixed(2)}</div></div>
+        <div class="m"><div class="k">Est. CO₂ over ${inputs.years}y</div><div class="v">${(res[best].co2kg/1000).toFixed(1)} t</div></div>
+      </div>`;
+
+    let th = `<tr><th>Fuel</th><th class="num">${inputs.financed?'On-road + interest':'On-road'}</th><th class="num">Running</th><th class="num">Service+Ins.+Toll</th><th class="num">One-off</th><th class="num">− Resale</th><th class="num">Net TCO</th></tr>`;
+    let rows = fuels.map(f=>{
+      const r = res[f]; const isBest = f===best;
+      return `<tr class="${isBest?'hl':''}${r.forcedScrap?' flag':''}"><td><span class="dot ${f}"></span>${fuelLabel[f]}</td>
+        <td class="num">${fmt(r.onRoadEffective+r.financeCost)}</td>
+        <td class="num">${fmt(r.runningTotal)}</td>
+        <td class="num">${fmt(r.serviceTotal+r.insTotal+r.tollTotal)}</td>
+        <td class="num">${fmt(r.oneOff)}</td>
+        <td class="num">−${fmt(r.resale)}</td>
+        <td class="num ${isBest?'best':''}">${fmt(r.net)}</td></tr>`;
+    }).join('');
+    $('breakdownTable').innerHTML = th + rows;
+
+    const oldNote = document.getElementById('emiNote'); if(oldNote) oldNote.remove();
+    if(inputs.financed){
+      const emiItems = fuels.map(f=>`<span style="white-space:nowrap;display:inline-block;margin:2px 10px 2px 0;"><span class="dot ${f}"></span>${fuelLabel[f]}: ₹${Math.round(res[f].emiAmt).toLocaleString('en-IN')}/mo</span>`).join('');
+      $('breakdownTable').insertAdjacentHTML('afterend', `<p class="footnote" id="emiNote" style="overflow-wrap:break-word;">Approx. EMI — ${emiItems}</p>`);
+    }
+
+    const maxPerKm = Math.max(...fuels.map(f=>res[f].perKm));
+    $('perkmBars').innerHTML = fuels.map(f=>{
+      const r = res[f]; const pct = Math.max(4, (r.perKm/maxPerKm)*100);
+      return `<div class="bar-row"><div class="fname"><span class="dot ${f}"></span>${fuelLabel[f]}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${fuelColor[f]}"></div></div>
+        <div class="bval">₹${r.perKm.toFixed(2)}/km</div></div>`;
+    }).join('');
+
+    $('yearlyTable').innerHTML = yearlyTable(res, inputs.years);
+    $('breakevenTable').innerHTML = breakEvenTable(res);
+    $('matrixTable').innerHTML = matrixTable(inputs);
+
+    // Display recommended models based on calculated on-road prices
+    const onRoadPrices = {};
+    fuels.forEach(f=>{
+      const result = baseOnRoad(f, inputs, stateRoadTax[inputs.state]);
+      onRoadPrices[f] = result.onRoad;
+    });
+    displayRecommendedModels(onRoadPrices);
+
+    lastInputs = inputs; lastRes = res;
+    syncSlider('breakdownScroll','breakdownSlider','breakdownSliderRow');
+    syncSlider('yearlyScroll','yearlySlider','yearlySliderRow');
+    syncSlider('breakevenScroll','breakevenSlider','breakevenSliderRow');
+    syncSlider('matrixScroll','matrixSlider','matrixSliderRow');
+  }
+
+  let lastInputs = null, lastRes = null;
+
+  function syncSlider(scrollId, sliderId, rowId){
+    const el = $(scrollId), slider = $(sliderId), row = $(rowId);
+    if(!el || !slider || !row) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if(maxScroll > 4){
+      row.classList.add('visible');
+      slider.value = Math.round((el.scrollLeft/maxScroll)*1000);
+    } else {
+      row.classList.remove('visible');
+    }
+  }
+
+  function bindSliderSync(scrollId, sliderId){
+    const el = $(scrollId), slider = $(sliderId);
+    el.addEventListener('scroll', ()=>{
+      const maxScroll = el.scrollWidth-el.clientWidth;
+      slider.value = maxScroll>0 ? Math.round((el.scrollLeft/maxScroll)*1000) : 0;
+    });
+    slider.addEventListener('input', ()=>{
+      const maxScroll = el.scrollWidth-el.clientWidth;
+      el.scrollLeft = (slider.value/1000)*maxScroll;
+    });
+  }
+
+  function downloadExcel(){
+    if(typeof XLSX === 'undefined'){
+      alert('The Excel export library couldn\'t load — check your internet connection and try again.');
+      return;
+    }
+    if(!lastInputs || !lastRes) return;
+    const inputs = lastInputs, res = lastRes;
+    const stateLabel = (stateRoadTax[inputs.state] || {}).label ? stateRoadTax[inputs.state].label.replace(/&amp;/g,'&') : inputs.state;
+    const wb = XLSX.utils.book_new();
+
+    const assumptions = [
+      ['Total cost of ownership — assumptions'], [],
+      ['Price mode', inputs.priceMode],
+      ['Ownership horizon (years)', inputs.years],
+      ['Registration state', stateLabel],
+      ['Delhi-NCR zone', inputs.ncr ? 'Yes' : 'No'],
+      ['Commercial / ride-hailing use', inputs.commercial ? 'Yes' : 'No'],
+      ['Annual distance (km)', inputs.km],
+      ['City driving share (%)', inputs.citypct],
+      ['Home-charging share, EV (%)', inputs.homepct],
+      ['Climate zone', inputs.climate],
+      ['Annual toll + parking (₹)', inputs.toll],
+      ['Petrol price (₹/l)', inputs.petrolprice],
+      ['Diesel price (₹/l)', inputs.dieselprice],
+      ['Home power rate (₹/unit)', inputs.homerate],
+      ['Public DC rate (₹/unit)', inputs.pubrate],
+      ['Financed', inputs.financed ? 'Yes' : 'No'],
+      ['Down payment (%)', inputs.downpct],
+      ['Interest rate (% p.a.)', inputs.rate],
+      ['Loan tenure (years)', inputs.tenure],
+      ['Battery replacement assumed', inputs.battreplace ? 'Yes' : 'No'],
+    ];
+    if(inputs.priceMode==='custom'){
+      assumptions.push(
+        ['GST class', inputs.cls],
+        ['Petrol on-road quote (₹)', inputs.customPrice.petrol],
+        ['Diesel on-road quote (₹)', inputs.customPrice.diesel],
+        ['Hybrid on-road quote (₹)', inputs.customPrice.hybrid],
+        ['EV on-road quote (₹)', inputs.customPrice.ev]
+      );
+    } else if(inputs.priceMode==='used'){
+      assumptions.push(['Used car purchase price (₹)', inputs.usedPrice], ['Current age of car (years)', inputs.usedAge]);
+    }
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(assumptions), 'Assumptions');
+
+    const bdHead = ['Fuel', inputs.financed?'On-road + interest (Rs)':'On-road (Rs)', 'Running (Rs)', 'Service+Insurance+Toll (Rs)', 'One-off (Rs)', 'Resale value (Rs)', 'Net TCO (Rs)', 'Cost per km (Rs)', 'CO2 (kg)'];
+    const bdRows = fuels.map(f=>{
+      const r = res[f];
+      return [fuelLabel[f], Math.round(r.onRoadEffective+r.financeCost), Math.round(r.runningTotal), Math.round(r.serviceTotal+r.insTotal+r.tollTotal), Math.round(r.oneOff), -Math.round(r.resale), Math.round(r.net), Number(r.perKm.toFixed(2)), Math.round(r.co2kg)];
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([bdHead, ...bdRows]), 'Cost breakdown');
+
+    const yrHead = ['Fuel', ...Array.from({length:inputs.years},(_,i)=>'Year '+(i+1))];
+    const yrRows = fuels.map(f=>[fuelLabel[f], ...res[f].yearly.map(v=>Math.round(v))]);
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([yrHead, ...yrRows]), 'Cumulative by year');
+
+    const beRows = [['Fuel','Distance to break even vs petrol']];
+    fuels.filter(f=>f!=='petrol').forEach(f=>{
+      const fixedExtra = res[f].upfrontExtra - res['petrol'].upfrontExtra;
+      const varDiff = res['petrol'].perKmRunningOnly - res[f].perKmRunningOnly;
+      let val;
+      if(fixedExtra<=0) val = 'Cheaper upfront too';
+      else if(varDiff<=0) val = 'Never';
+      else val = Math.round(fixedExtra/varDiff) + ' km';
+      beRows.push([fuelLabel[f], val]);
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(beRows), 'Break-even');
+
+    const mxRows = [['Profile','Winner','Net cost per km (Rs)']];
+    Object.keys(personaPresets).forEach(key=>{
+      const p = personaPresets[key];
+      const testInputs = Object.assign({}, inputs, {km:p.km, citypct:p.city, homepct:p.home, commercial:p.commercial});
+      const r = compute(testInputs);
+      let best = fuels[0];
+      fuels.forEach(f=>{ if(r[f].net < r[best].net) best = f; });
+      mxRows.push([personaLabels[key], fuelLabel[best], Number(r[best].perKm.toFixed(2))]);
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(mxRows), 'Profile comparison');
+
+    XLSX.writeFile(wb, 'car-tco-comparison.xlsx');
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('#priceModeSeg button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ 
+      priceMode = btn.dataset.mode; 
+      updatePriceModeUI(); 
+      render(); 
+    });
+  });
+
+  document.querySelectorAll('.persona-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      document.querySelectorAll('.persona-card').forEach(c=>c.classList.remove('active'));
+      card.classList.add('active');
+      const p = personaPresets[card.dataset.persona];
+      $('km').value = p.km; $('citypct').value = p.city; $('homepct').value = p.home;
+      $('commercial').checked = !!p.commercial;
+      render();
+    });
+  });
+
+  document.querySelectorAll('.calc-inputs input, .calc-inputs select').forEach(el=>{
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  // Special handler for state dropdown to update NCR visibility
+  $('state').addEventListener('change', updateNCRVisibility);
+
+  // Special handler for GST class and price inputs to update breakdown
+  $('gstclass').addEventListener('change', updateGSTBreakdown);
+  $('cp_petrol').addEventListener('input', updateGSTBreakdown);
+  $('cp_diesel').addEventListener('input', updateGSTBreakdown);
+  $('cp_hybrid').addEventListener('input', updateGSTBreakdown);
+  $('cp_ev').addEventListener('input', updateGSTBreakdown);
+
+  bindSliderSync('breakdownScroll','breakdownSlider');
+  bindSliderSync('yearlyScroll','yearlySlider');
+  bindSliderSync('breakevenScroll','breakevenSlider');
+  bindSliderSync('matrixScroll','matrixSlider');
+
+  const dlBtn = $('downloadBtn');
+  if(dlBtn) dlBtn.addEventListener('click', downloadExcel);
+
+  window.addEventListener('resize', ()=>{
+    if(!lastRes) return;
+    syncSlider('breakdownScroll','breakdownSlider','breakdownSliderRow');
+    syncSlider('yearlyScroll','yearlySlider','yearlySliderRow');
+    syncSlider('breakevenScroll','breakevenSlider','breakevenSliderRow');
+    syncSlider('matrixScroll','matrixSlider','matrixSliderRow');
+  });
+
+  // Async initialization: Load data first, then initialize calculator
+  async function initCalculator() {
+    await loadDataFromJSON();
+    initializeWithFallback();
+    populateStates();
+    updateNCRVisibility();
+    updatePriceModeUI();
+    updateGSTBreakdown();
+    render();
+  }
+
+  // Start initialization
+  initCalculator();
+})();
+</script>
+
+</body>
+</html>
